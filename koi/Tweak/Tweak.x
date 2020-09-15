@@ -18,8 +18,9 @@ BOOL enabled;
 
 %hook SBIconController
 -(id)containerViewForPresentingContextMenuForIconView:(id)arg1 {
+	// arg1 is an instance of SBIconView
 	NSLog(@"IconView %@", arg1);
-	NSLog(@"bundle ID: %@", [arg1 applicationBundleIdentifier]);
+	NSLog(@"UIImage: %@", [[arg1 _iconImageView] _currentOverlayImage]);
 	return %orig;
 }
 %end
