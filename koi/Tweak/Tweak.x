@@ -29,7 +29,7 @@ _UIContextMenuContainerView *contextMenuContainerView = nil;
 		// This is a very dirty hack to get the current bundle ID. If you have a better way, please tell me!
 		NSString *bundleIdentifier = [[[NSString stringWithFormat:@"%@", [iconView icon]] componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
 		bundleIdentifier = [bundleIdentifier substringToIndex:[bundleIdentifier length] - 1];
-		NSLog(@"bundle id: %@", bundleId);
+		NSLog(@"bundle id: %@", bundleIdentifier);
 
 		// get the UIImage object by bundleIdentifier
 		UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
