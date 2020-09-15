@@ -9,11 +9,19 @@ BOOL enabled;
 - (void)didMoveToWindow {
 
 	%orig;
-
-	[self setBackgroundColor:[UIColor purpleColor]];
+	NSLog(@"didMoveToWindow");
+	[self setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:[alphaValue doubleValue]]];
 
 }
 
+%end
+
+%hook SBIconController
+-(id)containerViewForPresentingContextMenuForIconView:(id)arg1 {
+	NSLog(@"IconView %@", arg1);
+	NSLog(@"bundle ID: %@", [arg1 applicationBundleIdentifier]);
+	return %orig;
+}
 %end
 
 %end
