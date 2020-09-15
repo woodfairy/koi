@@ -5,7 +5,6 @@ BOOL enabled = NO;
 
 UIBlurEffect* blur;
 UIVisualEffectView* blurView;
-UIImage* currentArtwork;
 
 @implementation KOIRootListController
 
@@ -276,26 +275,6 @@ UIImage* currentArtwork;
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Koi"]];
 
     posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char *const *)args, NULL);
-
-}
-
-- (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled {
-
-    UITableViewCell* cell = [self tableView:self.table cellForRowAtIndexPath:indexPath];
-
-    if (cell) {
-        cell.userInteractionEnabled = enabled;
-        cell.textLabel.enabled = enabled;
-        cell.detailTextLabel.enabled = enabled;
-        if ([cell isKindOfClass:[PSControlTableCell class]]) {
-            PSControlTableCell *controlCell = (PSControlTableCell *)cell;
-            if (controlCell.control)
-                controlCell.control.enabled = enabled;
-        } else if ([cell isKindOfClass:[PSEditableTableCell class]]) {
-            PSEditableTableCell *editableCell = (PSEditableTableCell *)cell;
-            ((UITextField*)[editableCell textField]).alpha = enabled ? 1 : 0.4;
-        }
-    }
 
 }
 
