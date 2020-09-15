@@ -30,7 +30,7 @@
 			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
-			<real>0.4</real>
+			<real>0.2</real>
 			<key>defaults</key>
 			<string>0xcc.woodfairy.koi</string>
 			<key>key</key>
@@ -105,7 +105,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Koi By 0xCC And Litten, Artworks By taki</string>
+			<string>Koi by woodfairy and Litten, Artworks by taki</string>
 			<key>isStaticText</key>
 			<true/>
 		</dict>
