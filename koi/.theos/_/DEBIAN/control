@@ -1,0 +1,10 @@
+Package: 0xcc.woodfairy.koi
+Name: Koi 🐠
+Depends: mobilesubstrate
+Architecture: iphoneos-arm
+Description: owo
+Maintainer: 0xCC, alexa
+Author: 0xCC, alexa
+Section: Tweaks
+Version: 1.0-3+debug
+Installed-Size: 1024
