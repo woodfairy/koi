@@ -4,13 +4,13 @@ BOOL enabled;
 
 %group Koi
 
-%hook SpringBoard
+%hook _UIContextMenuContainerView
 
-- (void)applicationDidFinishLaunching:(id)arg1 {
+- (void)didMoveToWindow {
 
 	%orig;
 
-	NSLog(@"[KOI] loaded successfully");
+	[self setBackgroundColor:[UIColor purpleColor]];
 
 }
 
