@@ -22,3 +22,7 @@ NSString* alphaValue = @"0.4";
 @interface SBIconImageView : UIView
 -(id)_currentOverlayImage;
 @end
+
+@interface UIImage(MyCategory)
++(id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(double)arg3 ;
+@end
