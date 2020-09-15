@@ -1,22 +1,38 @@
+#import <QuartzCore/QuartzCore.h>
 #import "Koi.h"
 
 BOOL enabled;
 BOOL isFolder = NO;
-_UIContextMenuContainerView *contextMenuContainerView = nil;
 
+_UIContextMenuContainerView *contextMenuContainerView = nil;
+UIImage *currentBundleIconImage = nil;
+
+struct pixel {
+    unsigned char r, g, b, a;
+};
 
 %group Koi
 
 
 %hook _UIContextMenuContainerView
-- (void)didMoveToWindow 
+- (void)willMoveToWindow:(UIWindow *)newWindow
 {
-	%orig;
 	// this reference is needed by the GestureRecognizer hook, ARC will clean up (hopefully)
 	contextMenuContainerView = self;
 	if(!isFolder) {
-		[self setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:[alphaValue doubleValue]]];
+		[UIView animateWithDuration:1.0 animations:^{
+			// >>> PUT YOUR COLOR CALCULATION HERE :D
+			self.backgroundColor = [[self getLittensMagicColor:currentBundleIconImage] colorWithAlphaComponent:[alphaValue doubleValue]];
+		} completion:NULL];
 	}
+
+	%orig;
+}
+
+%new // THIS IS A PSEUDO METHOD 
+- (UIColor*) getLittensMagicColor:(UIImage*)image
+{
+    return [UIColor colorWithRed:229/255.0f green:39/255.0f blue:45/255.0f];
 }
 %end // hook _UIContextMenuContainerView
 
@@ -30,18 +46,24 @@ _UIContextMenuContainerView *contextMenuContainerView = nil;
 		NSString *bundleIdentifier = [[[NSString stringWithFormat:@"%@", [iconView icon]] componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
 		bundleIdentifier = [bundleIdentifier substringToIndex:[bundleIdentifier length] - 1];
 		NSLog(@"bundle id: %@", bundleIdentifier);
-
 		// get the UIImage object by bundleIdentifier
-		UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
-		//There is the UIImage, now use libkitten :D
-		NSLog(@"UIImage %@", image);
+		//There is the UIImage, now use libkitten in the hook above :D
+		currentBundleIconImage = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
+		NSLog(@"UIImage %@", currentBundleIconImage);
 	} else {
 		isFolder = YES;
 		// what are we going to do for folders? :D
 		NSLog(@"IconView is a folder. Bailing out.");
 	}
+
+	isFolder = !![iconView folder];
 	
 	return %orig;
+}
+
+-(void)_forceTouchControllerWillPresent:(id)arg1 {
+	NSLog(@"forceTouchControllerWillPresent arg1 %@", arg1);
+	%orig;
 }
 %end // hook SBIconController
 
