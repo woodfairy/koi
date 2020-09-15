@@ -1,7 +1,7 @@
 #import "Koi.h"
 
 BOOL enabled;
-BOOL changeColor = NO;
+BOOL isFolder = NO;
 _UIContextMenuContainerView *contextMenuContainerView = nil;
 
 
@@ -12,8 +12,9 @@ _UIContextMenuContainerView *contextMenuContainerView = nil;
 - (void)didMoveToWindow 
 {
 	%orig;
+	// this reference is needed by the GestureRecognizer hook, ARC will clean up (hopefully)
 	contextMenuContainerView = self;
-	if(changeColor) {
+	if(!isFolder) {
 		[self setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:[alphaValue doubleValue]]];
 	}
 }
@@ -23,18 +24,20 @@ _UIContextMenuContainerView *contextMenuContainerView = nil;
 %hook SBIconController
 -(id)containerViewForPresentingContextMenuForIconView:(id)iconView 
 {
-	
-	NSLog(@"IconView %@", iconView);
 	if(![iconView folder]) {
-		changeColor = YES;
+		isFolder = NO;
 		// This is a very dirty hack to get the current bundle ID. If you have a better way, please tell me!
-		NSString *bundleId = [[[NSString stringWithFormat:@"%@", [iconView icon]] componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
-		bundleId = [bundleId substringToIndex:[bundleId length] - 1];
+		NSString *bundleIdentifier = [[[NSString stringWithFormat:@"%@", [iconView icon]] componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
+		bundleIdentifier = [bundleIdentifier substringToIndex:[bundleIdentifier length] - 1];
 		NSLog(@"bundle id: %@", bundleId);
-		UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:2 scale:[UIScreen mainScreen].scale];
-		NSLog(@"UIImage %@", image);
+
+		// get the UIImage object by bundleIdentifier
+		UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
+		//There is the UIImage, now use libkitten :D
+		//NSLog(@"UIImage %@", image);
 	} else {
-		changeColor = NO;
+		isFolder = YES;
+		// what are we going to do for folders? :D
 		NSLog(@"IconView is a folder. Bailing out.");
 	}
 	
@@ -46,6 +49,7 @@ _UIContextMenuContainerView *contextMenuContainerView = nil;
 %hook _UIPreviewPlatterPresentationController
 -(void)_handleDismissalTapGesture:(id)arg1 
 {
+	// I hook into the GestureRecognizer in order to set the background color to nil to get rid of the visual annoyance when dismissing
 	if(contextMenuContainerView) {
 		[contextMenuContainerView setBackgroundColor:nil];
 	}
