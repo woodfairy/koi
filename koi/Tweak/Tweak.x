@@ -34,7 +34,7 @@ _UIContextMenuContainerView *contextMenuContainerView = nil;
 		// get the UIImage object by bundleIdentifier
 		UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
 		//There is the UIImage, now use libkitten :D
-		//NSLog(@"UIImage %@", image);
+		NSLog(@"UIImage %@", image);
 	} else {
 		isFolder = YES;
 		// what are we going to do for folders? :D
