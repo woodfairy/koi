@@ -60,11 +60,6 @@ struct pixel {
 	
 	return %orig;
 }
-
--(void)_forceTouchControllerWillPresent:(id)arg1 {
-	NSLog(@"forceTouchControllerWillPresent arg1 %@", arg1);
-	%orig;
-}
 %end // hook SBIconController
 
 
