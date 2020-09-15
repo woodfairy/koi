@@ -1,43 +1,67 @@
 #import "Koi.h"
 
 BOOL enabled;
+BOOL changeColor = NO;
+_UIContextMenuContainerView *contextMenuContainerView = nil;
+
 
 %group Koi
 
+
 %hook _UIContextMenuContainerView
-
-- (void)didMoveToWindow {
+- (void)didMoveToWindow 
+{
 	%orig;
-	NSLog(@"didMoveToWindow");
-	[self setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:[alphaValue doubleValue]]];
+	contextMenuContainerView = self;
+	if(changeColor) {
+		[self setBackgroundColor:[[UIColor purpleColor] colorWithAlphaComponent:[alphaValue doubleValue]]];
+	}
 }
+%end // hook _UIContextMenuContainerView
 
-%end
 
 %hook SBIconController
--(id)containerViewForPresentingContextMenuForIconView:(id)arg1 {
-	// This is a very dirty hack to get the current bundle ID. If you have a better way, please tell me!
-	NSString *bundleId = [[[NSString stringWithFormat:@"%@", [arg1 icon]] componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
-	bundleId = [bundleId substringToIndex:[bundleId length] - 1];
-	NSLog(@"bundle id: %@", bundleId);
-	UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:2 scale:[UIScreen mainScreen].scale];
-	NSLog(@"UIImage %@", image);
+-(id)containerViewForPresentingContextMenuForIconView:(id)iconView 
+{
+	
+	NSLog(@"IconView %@", iconView);
+	if(![iconView folder]) {
+		changeColor = YES;
+		// This is a very dirty hack to get the current bundle ID. If you have a better way, please tell me!
+		NSString *bundleId = [[[NSString stringWithFormat:@"%@", [iconView icon]] componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
+		bundleId = [bundleId substringToIndex:[bundleId length] - 1];
+		NSLog(@"bundle id: %@", bundleId);
+		UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:bundleId format:2 scale:[UIScreen mainScreen].scale];
+		NSLog(@"UIImage %@", image);
+	} else {
+		changeColor = NO;
+		NSLog(@"IconView is a folder. Bailing out.");
+	}
+	
 	return %orig;
 }
-%end
+%end // hook SBIconController
 
-%end
 
-%ctor {
+%hook _UIPreviewPlatterPresentationController
+-(void)_handleDismissalTapGesture:(id)arg1 
+{
+	if(contextMenuContainerView) {
+		[contextMenuContainerView setBackgroundColor:nil];
+	}
+	%orig;
+}
+%end // hook _UIPreviewPlatterPresentationController
 
+
+%end // group Koi
+
+%ctor 
+{
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"0xcc.woodfairy.koi"];
-
 	[preferences registerBool:&enabled default:nil forKey:@"Enabled"];
-
 	[preferences registerObject:&alphaValue default:@"0.4" forKey:@"alpha"];
-
 	if (enabled) {
 		%init(Koi);
 	}
-
 }
