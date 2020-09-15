@@ -16,4 +16,9 @@ NSString* alphaValue = @"0.4";
 
 @interface SBIconView : UIView
 -(id)applicationBundleIdentifier ;
+-(id)_iconImageView;
+@end
+
+@interface SBIconImageView : UIView
+-(id)_currentOverlayImage;
 @end
