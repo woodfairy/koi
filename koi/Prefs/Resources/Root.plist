@@ -30,7 +30,7 @@
 			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
-			<real>0.2</real>
+			<real>0.5</real>
 			<key>defaults</key>
 			<string>0xcc.woodfairy.koi</string>
 			<key>key</key>
@@ -94,7 +94,7 @@
 			<key>label</key>
 			<string>Lisa</string>
 			<key>subtitle</key>
-			<string>Customize your lockscreen experience</string>
+			<string>Full incoming OLED notifications</string>
 			<key>icon</key>
 			<string>Lisa.png</string>
 			<key>url</key>

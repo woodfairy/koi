@@ -1,33 +1,35 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
+#import <QuartzCore/QuartzCore.h>
+#import <Kitten/libKitten.h>
 
 HBPreferences* preferences;
+libKitten* nena;
 
 extern BOOL enabled;
 
-NSString* alphaValue = @"0.2";
+NSString* alphaValue = @"0.5";
 
 
 @interface _UIContextMenuContainerView : UIView
--(id)dismissalHandler;
--(UIColor*)getLittensMagicColor:(UIImage*)image;
+- (id)dismissalHandler;
 @end
 
 @interface SBIconController : UIViewController
--(id)containerViewForPresentingContextMenuForIconView:(id)iconView ;
--(void)_forceTouchControllerWillPresent:(id)arg1 ;
+- (id)containerViewForPresentingContextMenuForIconView:(id)iconView;
+- (void)_forceTouchControllerWillPresent:(id)arg1;
 @end
 
 @interface SBIconView : UIView
--(id)_iconImageView;
--(id)folder;
+- (id)_iconImageView;
+- (id)folder;
 @end
 
-@interface UIImage(Koi)
-+(id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(double)arg3 ;
+@interface UIImage (Koi)
++ (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(double)arg3;
 @end
 
 @interface _UIPreviewPlatterPresentationController : UIPresentationController
--(void)_handleDismissalTapGesture:(id)arg1 ;
+- (void)_handleDismissalTapGesture:(id)arg1;
 @end
 
