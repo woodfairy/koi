@@ -25,6 +25,10 @@ NSString* alphaValue = @"0.5";
 - (id)folder;
 @end
 
+@interface SBFolder : NSObject
+-(NSArray *)icons;
+@end
+
 @interface UIImage (Koi)
 + (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(double)arg3;
 @end
