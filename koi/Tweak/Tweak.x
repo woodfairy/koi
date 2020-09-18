@@ -4,7 +4,6 @@ BOOL enabled;
 
 _UIContextMenuContainerView* contextMenuContainerView = nil;
 UIColor *currentBundleColor = nil;
-NSMutableArray *contextMenuContainerViews = nil;
 
 static NSString* koiParseSerializedObjectString(NSString *string) {
 	NSLog(@"koiParseString %@", string);
@@ -95,7 +94,6 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 	[preferences registerObject:&alphaValue default:@"0.5" forKey:@"alpha"];
 
 	if (enabled) {
-		contextMenuContainerViews = [[NSMutableArray alloc] init];
 		%init(Koi);
 	}
 
