@@ -6,7 +6,6 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 UIColor *currentBundleColor = nil;
 
 static NSString* koiParseSerializedObjectString(NSString *string) {
-	NSLog(@"koiParseString %@", string);
 	string = [[string componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
 	return [string substringToIndex:[string length] - 1];
 }
