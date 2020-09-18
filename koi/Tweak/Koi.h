@@ -23,6 +23,7 @@ NSString* alphaValue = @"0.5";
 @interface SBIconView : UIView
 - (id)_iconImageView;
 - (id)folder;
+- (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView;
 @end
 
 @interface SBFolder : NSObject

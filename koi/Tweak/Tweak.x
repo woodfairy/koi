@@ -4,6 +4,7 @@ BOOL enabled;
 
 _UIContextMenuContainerView* contextMenuContainerView = nil;
 UIColor *currentBundleColor = nil;
+NSMutableArray *contextMenuContainerViews = nil;
 
 static NSString* koiParseSerializedObjectString(NSString *string) {
 	NSLog(@"koiParseString %@", string);
@@ -17,16 +18,16 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 
 %hook _UIContextMenuContainerView
 
-- (void)willMoveToWindow:(UIWindow *)newWindow {
-
+-(id) init {
 	contextMenuContainerView = self;
+	return %orig;
+}
 
+- (void)willMoveToWindow:(UIWindow *)newWindow {
 	[UIView animateWithDuration:1.0 animations:^{
 		[self setBackgroundColor:currentBundleColor];
 	} completion:NULL];
-
 	%orig;
-	
 }
 
 %end
@@ -59,6 +60,14 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 
 %end
 
+%hook SBIconView 
+- (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView {
+	if(contextMenuContainerView)
+		[contextMenuContainerView setBackgroundColor:nil];
+	%orig;
+}
+%end
+
 
 %hook _UIPreviewPlatterPresentationController
 
@@ -86,6 +95,7 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 	[preferences registerObject:&alphaValue default:@"0.5" forKey:@"alpha"];
 
 	if (enabled) {
+		contextMenuContainerViews = [[NSMutableArray alloc] init];
 		%init(Koi);
 	}
 
