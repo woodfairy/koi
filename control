@@ -4,8 +4,8 @@ Depends: mobilesubstrate, preferenceloader, ws.hbang.common (>= 1.14), firmware 
 Version: 1.0
 Architecture: iphoneos-arm
 Description: Colorize the force touch menu background based on the app icon color
-Maintainer: 0xCC & Litten <hiya@litten.love>
-Author: 0xCC & Litten <hiya@litten.love>
+Maintainer: woodfairy & Litten <hiya@litten.love>
+Author: woodfairy & Litten <hiya@litten.love>
 Section: Tweaks
 Depiction: https://repo.litten.love/depictions/koi/index.html
 SileoDepiction: https://repo.litten.love/depictions/koi/koi.json
