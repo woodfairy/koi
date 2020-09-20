@@ -16,16 +16,20 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 
 %hook _UIContextMenuContainerView
 
--(id) init {
+- (id)init {
+
 	contextMenuContainerView = self;
 	return %orig;
+
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
+
 	[UIView animateWithDuration:1.0 animations:^{
 		[self setBackgroundColor:currentBundleColor];
 	} completion:NULL];
 	%orig;
+
 }
 
 %end
@@ -59,11 +63,16 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 %end
 
 %hook SBIconView 
+
 - (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView {
+
 	if(contextMenuContainerView)
 		[contextMenuContainerView setBackgroundColor:nil];
+
 	%orig;
+
 }
+
 %end
 
 
@@ -80,8 +89,22 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 
 %end
 
+%hook SBHIconManager
+
+- (void)setEditing:(BOOL)arg1 {
+
+	%orig;
+
+	if (contextMenuContainerView)
+			[contextMenuContainerView setBackgroundColor:nil];
+
+	%orig;
+
+}
+
 %end
 
+%end
 
 %ctor {
 
