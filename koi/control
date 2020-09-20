@@ -1,9 +1,0 @@
-Package: 0xcc.woodfairy.koi
-Name: Koi 🐠
-Depends: mobilesubstrate, preferenceloader, ws.hbang.common (>= 1.14), firmware (>= 13.0), love.litten.libkitten
-Version: 1.0
-Architecture: iphoneos-arm
-Description: owo
-Maintainer: 0xCC, Litten
-Author: 0xCC, Litten
-Section: Tweaks
