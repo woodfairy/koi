@@ -92,9 +92,6 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 %hook SBHIconManager
 
 - (void)setEditing:(BOOL)arg1 {
-
-	%orig;
-
 	if (contextMenuContainerView)
 			[contextMenuContainerView setBackgroundColor:nil];
 
