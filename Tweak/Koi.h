@@ -20,14 +20,24 @@ NSString* alphaValue = @"0.5";
 - (void)_forceTouchControllerWillPresent:(id)arg1;
 @end
 
+@interface SBIconImageView : UIView
+- (UIImage *)displayedImage;
+@end
+
+@interface SBIcon
+- (NSString *)applicationBundleID;
+@end
+
 @interface SBIconView : UIView
 - (id)_iconImageView;
 - (id)folder;
+- (SBIcon *)icon;
 - (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView;
+- (SBIconImageView *)currentImageView;
 @end
 
 @interface SBFolder : NSObject
--(NSArray *)icons;
+-(NSArray<SBIcon *> *)icons;
 @end
 
 @interface UIImage (Koi)
