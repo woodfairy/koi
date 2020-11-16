@@ -5,12 +5,6 @@ BOOL enabled;
 _UIContextMenuContainerView* contextMenuContainerView = nil;
 UIColor *currentBundleColor = nil;
 
-static NSString* koiParseSerializedObjectString(NSString *string) {
-	string = [[string componentsSeparatedByString:@"bundleID: "] objectAtIndex:1];
-	return [string substringToIndex:[string length] - 1];
-}
-
-
 
 %group Koi
 
@@ -37,23 +31,34 @@ static NSString* koiParseSerializedObjectString(NSString *string) {
 
 %hook SBIconController
 
-- (id)containerViewForPresentingContextMenuForIconView:(id)iconView {
+- (id)containerViewForPresentingContextMenuForIconView:(SBIconView *)iconView {
 
 	SBFolder *folder = [iconView folder];
 	NSString *bundleIdentifier;
 
-	bundleIdentifier = 
-		koiParseSerializedObjectString(
-			[
-				NSString stringWithFormat:@"%@", 
-				!!folder ? [[folder icons] objectAtIndex:0] : [iconView icon]
-			]
-		);
+	if (folder) {
+		if ([[folder icons] count] && [[folder icons] objectAtIndex:0])
+			bundleIdentifier = [[[folder icons] objectAtIndex:0] applicationBundleID];
+	} else {
+		bundleIdentifier = [[iconView icon] applicationBundleID];
+	}
 
-	UIImage *image = 
-		[UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
+	UIImage *image;
+	
+	if (bundleIdentifier) {
+		image = 
+			[UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
+	} else {
+		// alternatively fall back to currently displayed low-res icon image if there is no bundle
+		SBIconImageView *view = [iconView currentImageView];
+		if (view)
+			image = [view displayedImage];
+	}
 
-	currentBundleColor = 
+	if (!image)
+		return %orig;
+
+	currentBundleColor =
 		[[nena secondaryColor:image] colorWithAlphaComponent:[alphaValue doubleValue]];
 	
 	return %orig;
