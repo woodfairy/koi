@@ -7,23 +7,27 @@ UIColor *currentBundleColor = nil;
 
 
 %group Koi
+/*
+%hook _UIContextMenuActionsListView
 
+- (void)willMoveToWindow:(UIWindow *)newWindow {
+	[[([self.subviews objectAtIndex:0]).subviews objectAtIndex:0] setBackgroundColor:currentBundleColor];
+	%orig;
+}
+%end
+*/
 %hook _UIContextMenuContainerView
 
 - (id)init {
-
 	contextMenuContainerView = self;
 	return %orig;
-
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
-
 	[UIView animateWithDuration:1.0 animations:^{
 		[self setBackgroundColor:currentBundleColor];
 	} completion:NULL];
 	%orig;
-
 }
 
 %end
@@ -32,7 +36,6 @@ UIColor *currentBundleColor = nil;
 %hook SBIconController
 
 - (id)containerViewForPresentingContextMenuForIconView:(SBIconView *)iconView {
-
 	SBFolder *folder = [iconView folder];
 	NSString *bundleIdentifier;
 
@@ -51,8 +54,12 @@ UIColor *currentBundleColor = nil;
 	} else {
 		// alternatively fall back to currently displayed low-res icon image if there is no bundle
 		SBIconImageView *view = [iconView currentImageView];
-		if (view)
-			image = [view displayedImage];
+		if (view) {
+			if ([image respondsToSelector:@selector(displayedImage)]) {
+				image = [view displayedImage];
+			}
+			
+		}
 	}
 
 	if (!image)
@@ -60,6 +67,8 @@ UIColor *currentBundleColor = nil;
 
 	currentBundleColor =
 		[[nena secondaryColor:image] colorWithAlphaComponent:[alphaValue doubleValue]];
+
+	NSLog(@"currentBundleColor %@", currentBundleColor);
 	
 	return %orig;
 

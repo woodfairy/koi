@@ -15,6 +15,9 @@ NSString* alphaValue = @"0.5";
 - (id)dismissalHandler;
 @end
 
+@interface _UIContextMenuActionsListView : UIView
+@end
+
 @interface SBIconController : UIViewController
 - (id)containerViewForPresentingContextMenuForIconView:(id)iconView;
 - (void)_forceTouchControllerWillPresent:(id)arg1;
