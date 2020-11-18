@@ -30,9 +30,9 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 
-	if (currentBundleColor)
+	if (currentBundleBackgroundColor)
 		[UIView animateWithDuration:1.0 animations:^{
-			[self setBackgroundColor:currentBundleColor];
+			[self setBackgroundColor:currentBundleBackgroundColor];
 		} completion:NULL];
 
 	%orig;
@@ -45,7 +45,8 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 %hook SBIconController
 
 - (id)containerViewForPresentingContextMenuForIconView:(SBIconView *)iconView {
-	currentBundleColor = nil; // reset current color first, there's no guarantee we will find a new one for current view
+	currentBundleBackgroundColor = nil; // reset current color first, there's no guarantee we will find a new one for current view
+	currentBundleMenuColor = nil;
 	SBFolder *folder = [iconView folder];
 	NSString *bundleIdentifier;
 
