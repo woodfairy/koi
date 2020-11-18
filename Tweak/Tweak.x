@@ -11,7 +11,8 @@ UIColor *currentBundleColor = nil;
 %hook _UIContextMenuActionsListView
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
-	[[([self.subviews objectAtIndex:0]).subviews objectAtIndex:0] setBackgroundColor:currentBundleColor];
+	if ([self.subviews count] && [self.subviews objectAtIndex:0] && [([self.subviews objectAtIndex:0]).subviews count])
+		[[([self.subviews objectAtIndex:0]).subviews objectAtIndex:0] setBackgroundColor:currentBundleColor];
 	%orig;
 }
 %end
@@ -80,8 +81,6 @@ UIColor *currentBundleColor = nil;
 
 	currentBundleColor =
 		[[nena secondaryColor:image] colorWithAlphaComponent:[alphaValue doubleValue]];
-
-	NSLog(@"currentBundleColor %@", currentBundleColor);
 	
 	return %orig;
 
