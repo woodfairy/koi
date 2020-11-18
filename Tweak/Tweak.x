@@ -10,8 +10,13 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 
-	if ([self.subviews count] && [self.subviews objectAtIndex:0] && [([self.subviews objectAtIndex:0]).subviews count])
-		[[[([[self subviews] objectAtIndex:0]) subviews] objectAtIndex:0] setBackgroundColor:[currentBundleMenuColor colorWithAlphaComponent:[menuAlphaValue doubleValue]]];
+	if ([self.subviews count] && [self.subviews objectAtIndex:0] && [([self.subviews objectAtIndex:0]).subviews count]) {
+		UIView *collectionView = [[([[self subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
+		UIView *visualEffectView = [[([[collectionView subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
+		[collectionView setBackgroundColor:currentBundleMenuColor];
+		[visualEffectView setBackgroundColor:currentBundleMenuColor];
+		[visualEffectView setAlpha:0.6];
+	}
 	
 	%orig;
 
