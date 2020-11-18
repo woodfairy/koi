@@ -100,18 +100,21 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 	if (!image)
 		return %orig;
 
-	if ([selectedBackgroundColorValue intValue] == 0)
+	int selectedBackgroundColorIntValue = [selectedBackgroundColorValue intValue];
+	int selectedMenuColorIntValue = [selectedMenuColorValue intValue];
+
+	if (selectedBackgroundColorIntValue == 0)
 		currentBundleBackgroundColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-	else if ([selectedBackgroundColorValue intValue] == 1)
+	else if (selectedBackgroundColorIntValue == 1)
 		currentBundleBackgroundColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-	else if ([selectedBackgroundColorValue intValue] == 2)
+	else if (selectedBackgroundColorIntValue == 2)
 		currentBundleBackgroundColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 
-	if ([selectedMenuColorValue intValue] == 0)
+	if (selectedMenuColorIntValue == 0)
 		currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-	else if ([selectedMenuColorValue intValue] == 1)
+	else if (selectedMenuColorIntValue == 1)
 		currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-	else if ([selectedMenuColorValue intValue] == 2)
+	else if (selectedMenuColorIntValue == 2)
 		currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 	
 	return %orig;
