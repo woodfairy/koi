@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
-#import <QuartzCore/QuartzCore.h>
 #import <Kitten/libKitten.h>
 
 HBPreferences* preferences;
@@ -8,8 +7,16 @@ libKitten* nena;
 
 extern BOOL enabled;
 
-NSString* alphaValue = @"0.5";
+UIColor* currentBundleBackgroundColor = nil;
+UIColor* currentBundleMenuColor = nil;
 
+// background
+NSString* backgroundAlphaValue = @"0.5";
+NSString* selectedBackgroundColorValue = @"2";
+
+// menu
+NSString* menuAlphaValue = @"1.0";
+NSString* selectedMenuColorValue = @"1";
 
 @interface _UIContextMenuContainerView : UIView
 - (id)dismissalHandler;
@@ -40,7 +47,7 @@ NSString* alphaValue = @"0.5";
 @end
 
 @interface SBFolder : NSObject
--(NSArray<SBIcon *> *)icons;
+- (NSArray<SBIcon *> *)icons;
 @end
 
 @interface UIImage (Koi)

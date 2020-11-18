@@ -177,12 +177,12 @@ UIVisualEffectView* blurView;
 
     [[self enableSwitch] setEnabled:NO];
 
-    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koi.plist"];
+    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koipreferences.plist"];
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
     NSSet* allKeys = [NSSet setWithArray:[dictionary allKeys]];
-    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"0xcc.woodfairy.koi"];
+    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"0xcc.woodfairy.koipreferences"];
     
-    if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koi.plist"])) {
+    if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koipreferences.plist"])) {
         enabled = YES;
         [preferences setBool:enabled forKey:@"Enabled"];
         [self respring];
@@ -204,12 +204,12 @@ UIVisualEffectView* blurView;
 
 - (void)setEnableSwitchState {
 
-    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koi.plist"];
+    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koipreferences.plist"];
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
     NSSet* allKeys = [NSSet setWithArray:[dictionary allKeys]];
-    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"0xcc.woodfairy.koi"];
+    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"0xcc.woodfairy.koipreferences"];
     
-    if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koi.plist"]))
+    if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/0xcc.woodfairy.koipreferences.plist"]))
         [[self enableSwitch] setOn:NO animated:YES];
     else if (!([allKeys containsObject:@"Enabled"]))
         [[self enableSwitch] setOn:NO animated:YES];
@@ -241,7 +241,7 @@ UIVisualEffectView* blurView;
 
 - (void)resetPreferences {
 
-    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"0xcc.woodfairy.koi"];
+    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"0xcc.woodfairy.koipreferences"];
     for (NSString* key in [preferences dictionaryRepresentation]) {
         [preferences removeObjectForKey:key];
     }
