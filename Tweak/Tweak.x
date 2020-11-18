@@ -15,7 +15,7 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 		UIView *visualEffectView = [[([[collectionView subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
 		[collectionView setBackgroundColor:currentBundleMenuColor];
 		[visualEffectView setBackgroundColor:currentBundleMenuColor];
-		[visualEffectView setAlpha:0.6];
+		[visualEffectView setAlpha:0.8];
 	}
 	
 	%orig;
