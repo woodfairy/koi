@@ -69,8 +69,8 @@ UIColor *currentBundleColor = nil;
 		// that's a fallback for iOS 14 widgets mainly
 		UIGraphicsBeginImageContext(CGSizeMake(iconView.frame.size.width, iconView.frame.size.height));
 		// below two lines are interchangeable
-    	//[iconView drawViewHierarchyInRect:CGRectMake(0, 0, iconView.frame.size.width, iconView.frame.size.height) afterScreenUpdates:YES]; // the resulting images look smoother for eye, but might actually be worse for color calculation
-    	[iconView.layer renderInContext:UIGraphicsGetCurrentContext()]; // the resulting images are more pixelated, but colors are sharper
+    	[iconView drawViewHierarchyInRect:CGRectMake(0, 0, iconView.frame.size.width, iconView.frame.size.height) afterScreenUpdates:YES]; // the resulting images look smoother for eye, but might actually be worse for color calculation
+    	//[iconView.layer renderInContext:UIGraphicsGetCurrentContext()]; // the resulting images are more pixelated, but colors are sharper
     	image = UIGraphicsGetImageFromCurrentImageContext();
     	UIGraphicsEndImageContext();
 		//UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); // was used for tests
