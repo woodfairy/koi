@@ -24,9 +24,10 @@ UIColor *currentBundleColor = nil;
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
-	[UIView animateWithDuration:1.0 animations:^{
-		[self setBackgroundColor:currentBundleColor];
-	} completion:NULL];
+	if (currentBundleColor)
+		[UIView animateWithDuration:1.0 animations:^{
+			[self setBackgroundColor:currentBundleColor];
+		} completion:NULL];
 	%orig;
 }
 
@@ -36,8 +37,11 @@ UIColor *currentBundleColor = nil;
 %hook SBIconController
 
 - (id)containerViewForPresentingContextMenuForIconView:(SBIconView *)iconView {
+	currentBundleColor = nil; // reset current color first, there's no guarantee we will find a new one for current view
 	SBFolder *folder = [iconView folder];
 	NSString *bundleIdentifier;
+
+	UIImage *image; // pointer to target image of icon for which we will generate the color
 
 	if (folder) {
 		if ([[folder icons] count] && [[folder icons] objectAtIndex:0])
@@ -46,20 +50,29 @@ UIColor *currentBundleColor = nil;
 		bundleIdentifier = [[iconView icon] applicationBundleID];
 	}
 
-	UIImage *image;
-	
-	if (bundleIdentifier) {
-		image = 
-			[UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
-	} else {
-		// alternatively fall back to currently displayed low-res icon image if there is no bundle
-		SBIconImageView *view = [iconView currentImageView];
-		if (view) {
-			if ([view respondsToSelector:@selector(displayedImage)]) {
-				image = [view displayedImage];
-			}
-			
-		}
+	SBIconImageView *iconImageView = [iconView currentImageView];
+
+	if (!image && iconImageView && [iconImageView respondsToSelector:@selector(displayedImage)]) {
+		// use the cached image from memory, the fastest way
+		image = [iconImageView displayedImage];
+	}
+
+	if (!image && bundleIdentifier) {
+		// fall back to loading icon using a bundle identifier
+		// (this will be used for folders)
+		image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
+	}
+
+	if (!image) {
+		// still nothing, we will try to capture the UIView to an image
+		// that's a fallback for iOS 14 widgets mainly
+		UIGraphicsBeginImageContext(CGSizeMake(iconView.frame.size.width, iconView.frame.size.height));
+		// below two lines are interchangeable
+    	//[iconView drawViewHierarchyInRect:CGRectMake(0, 0, iconView.frame.size.width, iconView.frame.size.height) afterScreenUpdates:YES]; // the resulting images look smoother for eye, but might actually be worse for color calculation
+    	[iconView.layer renderInContext:UIGraphicsGetCurrentContext()]; // the resulting images are more pixelated, but colors are sharper
+    	image = UIGraphicsGetImageFromCurrentImageContext();
+    	UIGraphicsEndImageContext();
+		//UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); // was used for tests
 	}
 
 	if (!image)
@@ -80,7 +93,7 @@ UIColor *currentBundleColor = nil;
 
 - (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView {
 
-	if(contextMenuContainerView)
+	if (contextMenuContainerView)
 		[contextMenuContainerView setBackgroundColor:nil];
 
 	%orig;
