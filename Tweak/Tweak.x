@@ -3,31 +3,38 @@
 BOOL enabled;
 
 _UIContextMenuContainerView* contextMenuContainerView = nil;
-UIColor *currentBundleColor = nil;
-
 
 %group Koi
-/*
+
 %hook _UIContextMenuActionsListView
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
-	[[([self.subviews objectAtIndex:0]).subviews objectAtIndex:0] setBackgroundColor:currentBundleColor];
+
+	[[[([[self subviews] objectAtIndex:0]) subviews] objectAtIndex:0] setBackgroundColor:[currentBundleMenuColor colorWithAlphaComponent:[menuAlphaValue doubleValue]]];
+
 	%orig;
+
 }
+
 %end
-*/
+
 %hook _UIContextMenuContainerView
 
 - (id)init {
+
 	contextMenuContainerView = self;
 	return %orig;
+
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
+
 	[UIView animateWithDuration:1.0 animations:^{
-		[self setBackgroundColor:currentBundleColor];
-	} completion:NULL];
+		[self setBackgroundColor:currentBundleBackgroundColor];
+	} completion:nil];
+
 	%orig;
+
 }
 
 %end
@@ -36,8 +43,9 @@ UIColor *currentBundleColor = nil;
 %hook SBIconController
 
 - (id)containerViewForPresentingContextMenuForIconView:(SBIconView *)iconView {
-	SBFolder *folder = [iconView folder];
-	NSString *bundleIdentifier;
+
+	SBFolder* folder = [iconView folder];
+	NSString* bundleIdentifier;
 
 	if (folder) {
 		if ([[folder icons] count] && [[folder icons] objectAtIndex:0])
@@ -46,14 +54,13 @@ UIColor *currentBundleColor = nil;
 		bundleIdentifier = [[iconView icon] applicationBundleID];
 	}
 
-	UIImage *image;
+	UIImage* image;
 	
 	if (bundleIdentifier) {
-		image = 
-			[UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
+		image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
 	} else {
 		// alternatively fall back to currently displayed low-res icon image if there is no bundle
-		SBIconImageView *view = [iconView currentImageView];
+		SBIconImageView* view = [iconView currentImageView];
 		if (view) {
 			if ([view respondsToSelector:@selector(displayedImage)]) {
 				image = [view displayedImage];
@@ -62,13 +69,21 @@ UIColor *currentBundleColor = nil;
 		}
 	}
 
-	if (!image)
-		return %orig;
+	if (!image) return %orig;
 
-	currentBundleColor =
-		[[nena secondaryColor:image] colorWithAlphaComponent:[alphaValue doubleValue]];
+	if ([selectedBackgroundColorValue intValue] == 0)
+		currentBundleBackgroundColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+	else if ([selectedBackgroundColorValue intValue] == 1)
+		currentBundleBackgroundColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+	else if ([selectedBackgroundColorValue intValue] == 2)
+		currentBundleBackgroundColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 
-	NSLog(@"currentBundleColor %@", currentBundleColor);
+	if ([selectedMenuColorValue intValue] == 0)
+		currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+	else if ([selectedMenuColorValue intValue] == 1)
+		currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+	else if ([selectedMenuColorValue intValue] == 2)
+		currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 	
 	return %orig;
 
@@ -80,7 +95,7 @@ UIColor *currentBundleColor = nil;
 
 - (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView {
 
-	if(contextMenuContainerView)
+	if (contextMenuContainerView)
 		[contextMenuContainerView setBackgroundColor:nil];
 
 	%orig;
@@ -106,6 +121,7 @@ UIColor *currentBundleColor = nil;
 %hook SBHIconManager
 
 - (void)setEditing:(BOOL)arg1 {
+
 	if (contextMenuContainerView)
 			[contextMenuContainerView setBackgroundColor:nil];
 
@@ -119,12 +135,18 @@ UIColor *currentBundleColor = nil;
 
 %ctor {
 
-	preferences = [[HBPreferences alloc] initWithIdentifier:@"0xcc.woodfairy.koi"];
+	preferences = [[HBPreferences alloc] initWithIdentifier:@"0xcc.woodfairy.koipreferences"];
 	nena = [[libKitten alloc] init];
 
 	[preferences registerBool:&enabled default:nil forKey:@"Enabled"];
 
-	[preferences registerObject:&alphaValue default:@"0.5" forKey:@"alpha"];
+	// Background
+	[preferences registerObject:& backgroundAlphaValue default:@"0.5" forKey:@"backgroundAlpha"];
+	[preferences registerObject:&selectedBackgroundColorValue default:@"2" forKey:@"selectedBackgroundColor"];
+
+	// Menu
+	[preferences registerObject:& menuAlphaValue default:@"1.0" forKey:@"menuAlpha"];
+	[preferences registerObject:&selectedMenuColorValue default:@"1" forKey:@"selectedMenuColor"];
 
 	if (enabled) {
 		%init(Koi);
