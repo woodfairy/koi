@@ -55,7 +55,7 @@ UIColor *currentBundleColor = nil;
 		// alternatively fall back to currently displayed low-res icon image if there is no bundle
 		SBIconImageView *view = [iconView currentImageView];
 		if (view) {
-			if ([image respondsToSelector:@selector(displayedImage)]) {
+			if ([view respondsToSelector:@selector(displayedImage)]) {
 				image = [view displayedImage];
 			}
 			
