@@ -111,11 +111,11 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 		currentBundleBackgroundColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 
 	if (selectedMenuColorIntValue == 0)
-		currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+		currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
 	else if (selectedMenuColorIntValue == 1)
-		currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+		currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
 	else if (selectedMenuColorIntValue == 2)
-		currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+		currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
 	
 	return %orig;
 
