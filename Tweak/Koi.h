@@ -11,10 +11,12 @@ UIColor* currentBundleBackgroundColor = nil;
 UIColor* currentBundleMenuColor = nil;
 
 // background
+BOOL enableBackgroundColoringSwitch = YES;
 NSString* backgroundAlphaValue = @"0.5";
 NSString* selectedBackgroundColorValue = @"2";
 
 // menu
+BOOL enableMenuColoringSwitch = YES;
 NSString* menuAlphaValue = @"1.0";
 NSString* selectedMenuColorValue = @"1";
 

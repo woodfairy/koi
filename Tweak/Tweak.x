@@ -10,9 +10,10 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 
-	if ([self.subviews count] && [self.subviews objectAtIndex:0] && [([self.subviews objectAtIndex:0]).subviews count]) {
-		UIView *collectionView = [[([[self subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
-		UIView *visualEffectView = [[([[collectionView subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
+	if (!enableMenuColoringSwitch) return;
+	if ([[self subviews] count] && [self.subviews objectAtIndex:0] && [[([[self subviews] objectAtIndex:0]) subviews] count]) {
+		UIView* collectionView = [[([[self subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
+		UIView* visualEffectView = [[([[collectionView subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
 		[collectionView setBackgroundColor:currentBundleMenuColor];
 		[visualEffectView setBackgroundColor:currentBundleMenuColor];
 		[visualEffectView setAlpha:0.8];
@@ -29,16 +30,19 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 - (id)init {
 
 	contextMenuContainerView = self;
+
 	return %orig;
 
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 
-	if (currentBundleBackgroundColor)
+	if (!enableBackgroundColoringSwitch) return;
+	if (currentBundleBackgroundColor){
 		[UIView animateWithDuration:1.0 animations:^{
 			[self setBackgroundColor:currentBundleBackgroundColor];
-		} completion:NULL];
+		} completion:nil];	
+	}
 
 	%orig;
 
@@ -50,12 +54,13 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 %hook SBIconController
 
 - (id)containerViewForPresentingContextMenuForIconView:(SBIconView *)iconView {
+
 	currentBundleBackgroundColor = nil; // reset current color first, there's no guarantee we will find a new one for current view
 	currentBundleMenuColor = nil;
-	SBFolder *folder = [iconView folder];
-	NSString *bundleIdentifier;
+	SBFolder* folder = [iconView folder];
+	NSString* bundleIdentifier;
 
-	UIImage *image; // pointer to target image of icon for which we will generate the color
+	UIImage* image; // pointer to target image of icon for which we will generate the color
 
 	if (folder) {
 		if ([[folder icons] count] && [[folder icons] objectAtIndex:0])
@@ -73,7 +78,6 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 			if ([view respondsToSelector:@selector(displayedImage)]) {
 				image = [view displayedImage];
 			}
-			
 		}
 	}
 
@@ -102,25 +106,25 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 		//UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil); // was used for tests
 	}
 
-	if (!image)
-		return %orig;
+	if (!image) return %orig;
 
-	int selectedBackgroundColorIntValue = [selectedBackgroundColorValue intValue];
-	int selectedMenuColorIntValue = [selectedMenuColorValue intValue];
+	if (enableBackgroundColoringSwitch) {
+		if ([selectedBackgroundColorValue intValue] == 0)
+			currentBundleBackgroundColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+		else if ([selectedBackgroundColorValue intValue] == 1)
+			currentBundleBackgroundColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+		else if ([selectedBackgroundColorValue intValue] == 2)
+			currentBundleBackgroundColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+	}
 
-	if (selectedBackgroundColorIntValue == 0)
-		currentBundleBackgroundColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-	else if (selectedBackgroundColorIntValue == 1)
-		currentBundleBackgroundColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-	else if (selectedBackgroundColorIntValue == 2)
-		currentBundleBackgroundColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
-
-	if (selectedMenuColorIntValue == 0)
-		currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
-	else if (selectedMenuColorIntValue == 1)
-		currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
-	else if (selectedMenuColorIntValue == 2)
-		currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
+	if (enableMenuColoringSwitch) {
+		if ([selectedMenuColorValue intValue] == 0)
+			currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
+		else if ([selectedMenuColorValue intValue] == 1)
+			currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
+		else if ([selectedMenuColorValue intValue] == 2)
+			currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];	
+	}
 	
 	return %orig;
 
@@ -178,11 +182,13 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 	[preferences registerBool:&enabled default:nil forKey:@"Enabled"];
 
 	// Background
-	[preferences registerObject:& backgroundAlphaValue default:@"0.5" forKey:@"backgroundAlpha"];
+	[preferences registerBool:&enableBackgroundColoringSwitch default:YES forKey:@"enableBackgroundColoring"];
+	[preferences registerObject:&backgroundAlphaValue default:@"0.5" forKey:@"backgroundAlpha"];
 	[preferences registerObject:&selectedBackgroundColorValue default:@"2" forKey:@"selectedBackgroundColor"];
 
 	// Menu
-	[preferences registerObject:& menuAlphaValue default:@"1.0" forKey:@"menuAlpha"];
+	[preferences registerBool:&enableMenuColoringSwitch default:YES forKey:@"enableMenuColoring"];
+	[preferences registerObject:&menuAlphaValue default:@"1.0" forKey:@"menuAlpha"];
 	[preferences registerObject:&selectedMenuColorValue default:@"1" forKey:@"selectedMenuColor"];
 
 	if (enabled) {
