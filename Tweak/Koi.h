@@ -20,6 +20,9 @@ BOOL enableMenuColoringSwitch = YES;
 NSString* menuAlphaValue = @"1.0";
 NSString* selectedMenuColorValue = @"1";
 
+// magic
+NSString* magicValue = @"0.8";
+
 @interface _UIContextMenuContainerView : UIView
 - (id)dismissalHandler;
 @end
@@ -59,4 +62,3 @@ NSString* selectedMenuColorValue = @"1";
 @interface _UIPreviewPlatterPresentationController : UIPresentationController
 - (void)_handleDismissalTapGesture:(id)arg1;
 @end
-
