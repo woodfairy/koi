@@ -10,13 +10,13 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 
-	if (!enableMenuColoringSwitch) return;
+	if (!enableMenuColoringSwitch) return %orig;
 	if ([[self subviews] count] && [self.subviews objectAtIndex:0] && [[([[self subviews] objectAtIndex:0]) subviews] count]) {
 		UIView* collectionView = [[([[self subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
 		UIView* visualEffectView = [[([[collectionView subviews] objectAtIndex:0]) subviews] objectAtIndex:0];
 		[collectionView setBackgroundColor:currentBundleMenuColor];
 		[visualEffectView setBackgroundColor:currentBundleMenuColor];
-		[visualEffectView setAlpha:0.8];
+		[visualEffectView setAlpha:[magicValue doubleValue]];
 	}
 	
 	%orig;
@@ -37,7 +37,7 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
 
-	if (!enableBackgroundColoringSwitch) return;
+	if (!enableBackgroundColoringSwitch) return %orig;
 	if (currentBundleBackgroundColor){
 		[UIView animateWithDuration:1.0 animations:^{
 			[self setBackgroundColor:currentBundleBackgroundColor];
@@ -62,23 +62,10 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 	UIImage* image; // pointer to target image of icon for which we will generate the color
 
-	if (folder) {
-		if ([[folder icons] count] && [[folder icons] objectAtIndex:0])
-			bundleIdentifier = [[[folder icons] objectAtIndex:0] applicationBundleID];
+	if (folder && [[folder icons] count] && [[folder icons] objectAtIndex:0]) {
+		bundleIdentifier = [[[folder icons] objectAtIndex:0] applicationBundleID];
 	} else {
 		bundleIdentifier = [[iconView icon] applicationBundleID];
-	}
-	
-	if (bundleIdentifier) {
-		image = [UIImage _applicationIconImageForBundleIdentifier:bundleIdentifier format:2 scale:[UIScreen mainScreen].scale];
-	} else {
-		// alternatively fall back to currently displayed low-res icon image if there is no bundle
-		SBIconImageView* view = [iconView currentImageView];
-		if (view) {
-			if ([view respondsToSelector:@selector(displayedImage)]) {
-				image = [view displayedImage];
-			}
-		}
 	}
 
 	SBIconImageView *iconImageView = [iconView currentImageView];
@@ -190,6 +177,8 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 	[preferences registerBool:&enableMenuColoringSwitch default:YES forKey:@"enableMenuColoring"];
 	[preferences registerObject:&menuAlphaValue default:@"1.0" forKey:@"menuAlpha"];
 	[preferences registerObject:&selectedMenuColorValue default:@"1" forKey:@"selectedMenuColor"];
+
+	[preferences registerObject:&magicValue default:@"0.8" forKey:@"magic"];
 
 	if (enabled) {
 		%init(Koi);
