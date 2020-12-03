@@ -97,20 +97,20 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 	if (enableBackgroundColoringSwitch) {
 		if ([selectedBackgroundColorValue intValue] == 0)
-			currentBundleBackgroundColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+			currentBundleBackgroundColor = [[libKitten backgroundColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 		else if ([selectedBackgroundColorValue intValue] == 1)
-			currentBundleBackgroundColor = [[nena primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+			currentBundleBackgroundColor = [[libKitten primaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 		else if ([selectedBackgroundColorValue intValue] == 2)
-			currentBundleBackgroundColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
+			currentBundleBackgroundColor = [[libKitten secondaryColor:image] colorWithAlphaComponent:[ backgroundAlphaValue doubleValue]];
 	}
 
 	if (enableMenuColoringSwitch) {
 		if ([selectedMenuColorValue intValue] == 0)
-			currentBundleMenuColor = [[nena backgroundColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
+			currentBundleMenuColor = [[libKitten backgroundColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
 		else if ([selectedMenuColorValue intValue] == 1)
-			currentBundleMenuColor = [[nena primaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
+			currentBundleMenuColor = [[libKitten primaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];
 		else if ([selectedMenuColorValue intValue] == 2)
-			currentBundleMenuColor = [[nena secondaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];	
+			currentBundleMenuColor = [[libKitten secondaryColor:image] colorWithAlphaComponent:[ menuAlphaValue doubleValue]];	
 	}
 	
 	return %orig;
@@ -164,7 +164,6 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 %ctor {
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"0xcc.woodfairy.koipreferences"];
-	nena = [[libKitten alloc] init];
 
 	[preferences registerBool:&enabled default:nil forKey:@"Enabled"];
 
