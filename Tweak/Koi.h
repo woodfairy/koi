@@ -3,7 +3,6 @@
 #import <Kitten/libKitten.h>
 
 HBPreferences* preferences;
-libKitten* nena;
 
 extern BOOL enabled;
 
