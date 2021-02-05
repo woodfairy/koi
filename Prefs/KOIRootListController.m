@@ -25,7 +25,7 @@ UIVisualEffectView* blurView;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"1.1.4";
+        self.titleLabel.text = @"1.1.5";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -269,12 +269,12 @@ UIVisualEffectView* blurView;
 
 - (void)respringUtil {
 
-    pid_t pid;
-    const char* args[] = {"killall", "backboardd", NULL};
+    NSTask* task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/usr/bin/sbreload"];
 
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Koi"]];
 
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char *const *)args, NULL);
+    [task launch];
 
 }
 
