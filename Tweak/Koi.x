@@ -163,13 +163,13 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 	// Background
 	[preferences registerBool:&enableBackgroundColoringSwitch default:YES forKey:@"enableBackgroundColoring"];
-	[preferences registerObject:&backgroundAlphaValue default:@"0.5" forKey:@"backgroundAlpha"];
-	[preferences registerObject:&selectedBackgroundColorValue default:@"2" forKey:@"selectedBackgroundColor"];
+	[preferences registerObject:&backgroundAlphaValue default:@"0.25" forKey:@"backgroundAlpha"];
+	[preferences registerObject:&selectedBackgroundColorValue default:@"1" forKey:@"selectedBackgroundColor"];
 
 	// Menu
 	[preferences registerBool:&enableMenuColoringSwitch default:YES forKey:@"enableMenuColoring"];
 	[preferences registerObject:&menuAlphaValue default:@"1.0" forKey:@"menuAlpha"];
-	[preferences registerObject:&selectedMenuColorValue default:@"1" forKey:@"selectedMenuColor"];
+	[preferences registerObject:&selectedMenuColorValue default:@"0" forKey:@"selectedMenuColor"];
 
 	[preferences registerObject:&magicValue default:@"0.8" forKey:@"magic"];
 

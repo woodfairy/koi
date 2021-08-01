@@ -10,7 +10,7 @@
     self.hb_appearanceSettings = [self appearanceSettings];
 
 
-    self.preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.koipreferences"];
+    self.preferences = [[HBPreferences alloc] initWithIdentifier:@"0xcc.woodfairy.koipreferences"];
 
 
     self.enableSwitch = [UISwitch new];

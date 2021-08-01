@@ -10,13 +10,13 @@ UIColor* currentBundleMenuColor = nil;
 
 // background
 BOOL enableBackgroundColoringSwitch = YES;
-NSString* backgroundAlphaValue = @"0.5";
-NSString* selectedBackgroundColorValue = @"2";
+NSString* backgroundAlphaValue = @"0.25";
+NSString* selectedBackgroundColorValue = @"1";
 
 // menu
 BOOL enableMenuColoringSwitch = YES;
 NSString* menuAlphaValue = @"1.0";
-NSString* selectedMenuColorValue = @"1";
+NSString* selectedMenuColorValue = @"0";
 
 // magic
 NSString* magicValue = @"0.8";
