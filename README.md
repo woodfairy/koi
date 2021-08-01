@@ -8,4 +8,5 @@ https://www.idownloadblog.com/2020/09/30/koi/
 2. Install Koi
 
 ## Compiling
-Depends on libKitten, then just make package (make clean package)
+  - Depends on libKitten
+  - You may want to edit the `Makefiles` to suit your theos installation

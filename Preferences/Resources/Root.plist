@@ -24,7 +24,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Background Customization</string>
+			<string>Background customization</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -37,8 +37,6 @@
 			<string>enableBackgroundColoring</string>
 			<key>label</key>
 			<string>Enable</string>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -63,8 +61,6 @@
 			<true/>
 			<key>isSegmented</key>
 			<false/>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -95,15 +91,13 @@
 			</array>
 			<key>alignment</key>
 			<string>3</string>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Menu Customization</string>
+			<string>Menu customization</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -116,8 +110,6 @@
 			<string>enableMenuColoring</string>
 			<key>label</key>
 			<string>Enable</string>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -142,8 +134,6 @@
 			<true/>
 			<key>isSegmented</key>
 			<false/>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -174,14 +164,12 @@
 			</array>
 			<key>alignment</key>
 			<string>3</string>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Magic Value</string>
+			<string>Magic value</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -200,15 +188,13 @@
 			<true/>
 			<key>isSegmented</key>
 			<false/>
-			<key>PostNotification</key>
-			<string>0xcc.woodfairy.koipreferences/ReloadPrefs</string>
 		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Other Options</string>
+			<string>Other options</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -239,28 +225,28 @@
  			<key>label</key>
  			<string>Contributors</string>
  			<key>detail</key>
- 			<string>KOIContributorsSubPrefsListController</string>
+ 			<string>KOIContributorsSubPreferencesListController</string>
  			<key>KOISub</key>
- 			<string>contributorsSub</string>
+ 			<string>sub/contributors</string>
  		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>You Might Like:</string>
+			<string>You might like:</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>CantReachMe</string>
+			<string>BatteryBuddy</string>
 			<key>subtitle</key>
-			<string>Custom reachability actions</string>
+			<string>Battery indicator, but cute</string>
 			<key>icon</key>
-			<string>CantReachMe.png</string>
+			<string>featured/BatteryBuddy.png</string>
 			<key>url</key>
-			<string>https://repo.nepeta.me/depiction/0xcc.woodfairy.cantreachme</string>
+			<string>https://repo.litten.love/depictions/BatteryBuddy/</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -270,16 +256,16 @@
 			<key>subtitle</key>
 			<string>Full incoming OLED notifications</string>
 			<key>icon</key>
-			<string>Lisa.png</string>
+			<string>featured/Lisa.png</string>
 			<key>url</key>
-			<string>https://repo.litten.love/depictions/lsa/</string>
+			<string>https://repo.litten.love/depictions/Lisa/</string>
 		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Koi by woodfairy and Litten, Icon And Banner by taki</string>
+			<string>Koi by woodfairy and Litten, icon and banner by taki</string>
 			<key>isStaticText</key>
 			<true/>
 		</dict>
@@ -291,13 +277,13 @@
 			<key>subtitle</key>
 			<string>Chat with us 👾</string>
 			<key>url</key>
-			<string>https://discord.com/invite/fPHN8KG</string>
+			<string>https://discord.gg/tKUPZrS7ve</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Source Code</string>
+			<string>Source code</string>
 			<key>subtitle</key>
 			<string>GitHub 🐠</string>
 			<key>url</key>

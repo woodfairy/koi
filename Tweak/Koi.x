@@ -1,7 +1,5 @@
 #import "Koi.h"
 
-BOOL enabled;
-
 _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 %group Koi
@@ -58,15 +56,14 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 	currentBundleBackgroundColor = nil; // reset current color first, there's no guarantee we will find a new one for current view
 	currentBundleMenuColor = nil;
 	SBFolder* folder = [iconView folder];
-	NSString* bundleIdentifier;
+	NSString* bundleIdentifier = nil;
 
-	UIImage* image; // pointer to target image of icon for which we will generate the color
+	UIImage* image = nil; // pointer to target image of icon for which we will generate the color
 
-	if (folder && [[folder icons] count] && [[folder icons] objectAtIndex:0]) {
+	if (folder && [[folder icons] count] && [[folder icons] objectAtIndex:0])
 		bundleIdentifier = [[[folder icons] objectAtIndex:0] applicationBundleID];
-	} else {
+	else
 		bundleIdentifier = [[iconView icon] applicationBundleID];
-	}
 
 	SBIconImageView *iconImageView = [iconView currentImageView];
 
@@ -123,8 +120,7 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)activateShortcut:(id)item withBundleIdentifier:(NSString*)bundleID forIconView:(id)iconView {
 
-	if (contextMenuContainerView)
-		[contextMenuContainerView setBackgroundColor:nil];
+	if (contextMenuContainerView) [contextMenuContainerView setBackgroundColor:nil];
 
 	%orig;
 
@@ -137,8 +133,7 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)_handleDismissalTapGesture:(id)arg1 {
 
-	if (contextMenuContainerView)
-		[contextMenuContainerView setBackgroundColor:nil];
+	if (contextMenuContainerView) [contextMenuContainerView setBackgroundColor:nil];
 
 	%orig;
 
@@ -150,8 +145,7 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 - (void)setEditing:(BOOL)arg1 {
 
-	if (contextMenuContainerView)
-			[contextMenuContainerView setBackgroundColor:nil];
+	if (contextMenuContainerView) [contextMenuContainerView setBackgroundColor:nil];
 
 	%orig;
 
@@ -164,8 +158,8 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 %ctor {
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"0xcc.woodfairy.koipreferences"];
-
-	[preferences registerBool:&enabled default:nil forKey:@"Enabled"];
+	[preferences registerBool:&enabled default:NO forKey:@"Enabled"];
+	if (!enabled) return;
 
 	// Background
 	[preferences registerBool:&enableBackgroundColoringSwitch default:YES forKey:@"enableBackgroundColoring"];
@@ -179,8 +173,6 @@ _UIContextMenuContainerView* contextMenuContainerView = nil;
 
 	[preferences registerObject:&magicValue default:@"0.8" forKey:@"magic"];
 
-	if (enabled) {
-		%init(Koi);
-	}
+	%init(Koi);
 
 }

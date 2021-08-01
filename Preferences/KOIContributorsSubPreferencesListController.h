@@ -7,6 +7,9 @@
 @interface KOIAppearanceSettings : HBAppearanceSettings
 @end
 
-@interface KOIContributorsSubPrefsListController : HBListController
+@interface KOIContributorsSubPreferencesListController : HBListController
+@property(nonatomic, retain)KOIAppearanceSettings* appearanceSettings;
 @property(nonatomic, retain)UILabel* titleLabel;
+@property(nonatomic, retain)UIBlurEffect* blur;
+@property(nonatomic, retain)UIVisualEffectView* blurView;
 @end

@@ -9,7 +9,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Bug Fixes</string>
+			<string>Bug fixes</string>
 		</dict>
         <dict>
             <key>cell</key>
@@ -28,9 +28,28 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Pretty Twitter Cells By</string>
+			<string>Icon and banner by</string>
 		</dict>
 		<dict>
+            <key>cell</key>
+            <string>PSButtonCell</string>
+            <key>label</key>
+            <string>@74k1_</string>
+            <key>cellClass</key>
+            <string>HBTwitterCell</string>
+            <key>label</key>
+            <string>taki</string>
+            <key>user</key>
+            <string>74k1_</string>
+        </dict>
+
+        <dict>
+            <key>cell</key>
+            <string>PSGroupCell</string>
+            <key>label</key>
+            <string>Duo twitter cell by</string>
+        </dict>
+        <dict>
             <key>cell</key>
             <string>PSButtonCell</string>
             <key>label</key>
@@ -41,6 +60,18 @@
             <string>kritanta</string>
             <key>user</key>
             <string>arm64e</string>
+        </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSButtonCell</string>
+            <key>label</key>
+            <string>@MrGcGamer</string>
+            <key>cellClass</key>
+            <string>HBTwitterCell</string>
+            <key>label</key>
+            <string>MrGcGamer</string>
+            <key>user</key>
+            <string>MrGcGamer</string>
         </dict>
 
 	</array>
