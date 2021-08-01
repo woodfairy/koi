@@ -1,10 +1,9 @@
 #import <UIKit/UIKit.h>
-#import <Cephei/HBPreferences.h>
 #import <Kitten/libKitten.h>
+#import <Cephei/HBPreferences.h>
 
-HBPreferences* preferences;
-
-extern BOOL enabled;
+HBPreferences* preferences = nil;
+BOOL enabled = NO;
 
 UIColor* currentBundleBackgroundColor = nil;
 UIColor* currentBundleMenuColor = nil;
